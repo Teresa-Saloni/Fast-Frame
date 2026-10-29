@@ -1,0 +1,10 @@
+{
+  "name": "fastframe",
+  "version": "1.0.0",
+  "dependencies": [
+    { "name": "ffmpeg", "default-features": false, "features": ["avcodec", "avformat", "swscale", "x264"] },
+    "gtest",
+    "benchmark"
+  ],
+  "builtin-baseline": "a7b6122f6b6504d16d96117336a0562693579933"
+}

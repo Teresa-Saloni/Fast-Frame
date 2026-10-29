@@ -1,0 +1,66 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 25, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base", "hidden": true, "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": { "CMAKE_EXPORT_COMPILE_COMMANDS": "ON" }
+    },
+    { "name": "debug",   "inherits": "base", "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" } },
+    {
+      "name": "release", "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "CMAKE_CXX_FLAGS_RELEASE": "-O3 -DNDEBUG -march=x86-64-v2" }
+    },
+    {
+      "name": "release-native", "inherits": "release",
+      "cacheVariables": { "CMAKE_CXX_FLAGS_RELEASE": "-O3 -DNDEBUG -march=native" }
+    },
+    { "name": "release-lto", "inherits": "release", "cacheVariables": { "FF_LTO": "ON" } },
+    {
+      "name": "pgo-gen", "inherits": "release",
+      "cacheVariables": { "CMAKE_CXX_FLAGS_RELEASE": "-O3 -DNDEBUG -march=x86-64-v2 -fprofile-generate=${sourceDir}/build/pgo" }
+    },
+    {
+      "name": "pgo-use", "inherits": "release",
+      "cacheVariables": { "CMAKE_CXX_FLAGS_RELEASE": "-O3 -DNDEBUG -march=x86-64-v2 -fprofile-use=${sourceDir}/build/pgo -fprofile-correction -Wno-missing-profile" }
+    },
+    { "name": "hardened", "inherits": "release", "cacheVariables": { "FF_HARDENED": "ON" } },
+    { "name": "asan",  "inherits": "base", "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "FF_SANITIZE": "address" } },
+    { "name": "tsan",  "inherits": "base", "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "FF_SANITIZE": "thread", "CMAKE_CXX_COMPILER": "clang++" } },
+    { "name": "ubsan", "inherits": "base", "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "FF_SANITIZE": "undefined" } },
+    {
+      "name": "fuzz", "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "FF_SANITIZE": "fuzzer", "FF_BUILD_FUZZ": "ON",
+                           "FF_BUILD_TESTS": "OFF", "FF_BUILD_BENCH": "OFF", "CMAKE_CXX_COMPILER": "clang++" }
+    },
+    {
+      "name": "full", "inherits": "release",
+      "cacheVariables": { "FF_WITH_FFMPEG": "ON", "FF_WITH_ORT": "ON",
+                           "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "debug",          "configurePreset": "debug" },
+    { "name": "release",        "configurePreset": "release" },
+    { "name": "release-native", "configurePreset": "release-native" },
+    { "name": "release-lto",    "configurePreset": "release-lto" },
+    { "name": "pgo-gen",        "configurePreset": "pgo-gen" },
+    { "name": "pgo-use",        "configurePreset": "pgo-use" },
+    { "name": "hardened",       "configurePreset": "hardened" },
+    { "name": "asan",           "configurePreset": "asan" },
+    { "name": "tsan",           "configurePreset": "tsan" },
+    { "name": "ubsan",          "configurePreset": "ubsan" },
+    { "name": "fuzz",           "configurePreset": "fuzz" },
+    { "name": "full",           "configurePreset": "full" }
+  ],
+  "testPresets": [
+    { "name": "debug",    "configurePreset": "debug",    "output": { "outputOnFailure": true } },
+    { "name": "release",  "configurePreset": "release",  "output": { "outputOnFailure": true } },
+    { "name": "hardened", "configurePreset": "hardened", "output": { "outputOnFailure": true } },
+    { "name": "asan",     "configurePreset": "asan",     "output": { "outputOnFailure": true } },
+    { "name": "tsan",     "configurePreset": "tsan",     "output": { "outputOnFailure": true } },
+    { "name": "ubsan",    "configurePreset": "ubsan",    "output": { "outputOnFailure": true } },
+    { "name": "full",     "configurePreset": "full",     "output": { "outputOnFailure": true } }
+  ]
+}

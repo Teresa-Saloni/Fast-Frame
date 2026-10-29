@@ -1,0 +1,10 @@
+set(FF_TESTS test_spsc_queue test_arena test_preprocess test_tracker test_frame_header test_pipeline test_thread_pool)
+foreach(t IN LISTS FF_TESTS)
+  add_executable(${t} ${t}.cpp)
+  target_link_libraries(${t} PRIVATE fastframe GTest::gtest_main ff_sanitize ff_hardened)
+  target_compile_options(${t} PRIVATE -Wall -Wextra)
+  add_test(NAME ${t} COMMAND ${t})
+endforeach()
+# Same preprocess test, forced onto the scalar path, so both kernels run under every sanitizer.
+add_test(NAME test_preprocess_scalar COMMAND test_preprocess)
+set_tests_properties(test_preprocess_scalar PROPERTIES ENVIRONMENT "FF_FORCE_SCALAR=1")

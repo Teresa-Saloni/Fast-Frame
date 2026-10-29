@@ -1,0 +1,62 @@
+{
+  "fps": 434.877,
+  "frames": 600,
+  "frames_in": 600,
+  "dropped": 0,
+  "arena_exhausted": 0,
+  "wall_s": 1.3797,
+  "p50_ms": 57.344,
+  "p99_ms": 73.728,
+  "preprocess": "avx2",
+  "detector": "synthetic",
+  "stages": [
+    {
+      "name": "decode",
+      "count": 601,
+      "mean_us": 1082.19,
+      "p50_us": 768,
+      "p99_us": 7168,
+      "max_us": 10957,
+      "stalls": 9630
+    },
+    {
+      "name": "preprocess",
+      "count": 600,
+      "mean_us": 1484.47,
+      "p50_us": 832,
+      "p99_us": 9216,
+      "max_us": 10876,
+      "stalls": 6510
+    },
+    {
+      "name": "inference",
+      "count": 151,
+      "mean_us": 15881.6,
+      "p50_us": 16384,
+      "p99_us": 20480,
+      "max_us": 22505,
+      "stalls": 0
+    },
+    {
+      "name": "tracking",
+      "count": 600,
+      "mean_us": 57.005,
+      "p50_us": 3,
+      "p99_us": 384,
+      "max_us": 7997,
+      "stalls": 0
+    },
+    {
+      "name": "encode",
+      "count": 600,
+      "mean_us": 30.755,
+      "p50_us": 30,
+      "p99_us": 96,
+      "max_us": 183,
+      "stalls": 0
+    }
+  ],
+  "_tag": "v1.0.0",
+  "_machine": "x86_64",
+  "_cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz"
+}
